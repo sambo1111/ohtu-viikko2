@@ -5,7 +5,11 @@ import ohtu.verkkokauppa.*;
 public class Main {
 
     public static void main(String[] args) {
-        Kauppa kauppa = new Kauppa(Varasto.getInstance(), Pankki.getInstance(), Viitegeneraattori.getInstance() );
+        Kirjanpito kirj = new Kirjanpito();
+        Viitegeneraattori viite = new Viitegeneraattori();
+        Pankki pankki = new Pankki(kirj);
+        Varasto varasto = new Varasto(kirj);
+        Kauppa kauppa = new Kauppa(varasto, pankki, viite );
 
 
         // kauppa hoitaa yhden asiakkaan kerrallaan seuraavaan tapaan:
@@ -25,7 +29,7 @@ public class Main {
         kauppa.tilimaksu("Arto Vihavainen", "3425-1652");
 
         // kirjanpito
-        for (String tapahtuma : Kirjanpito.getInstance().getTapahtumat()) {
+        for (String tapahtuma : kirj.getTapahtumat()) {
             System.out.println(tapahtuma);
         }
     }
