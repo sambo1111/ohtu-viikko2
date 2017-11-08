@@ -1,17 +1,17 @@
 package ohtu;
 
 import ohtu.verkkokauppa.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class Main {
 
     public static void main(String[] args) {
-        Kirjanpito kirj = new Kirjanpito();
-        Viitegeneraattori viite = new Viitegeneraattori();
-        Pankki pankki = new Pankki(kirj);
-        Varasto varasto = new Varasto(kirj);
-        Kauppa kauppa = new Kauppa(varasto, pankki, viite );
-
-
+        ApplicationContext ctx = new FileSystemXmlApplicationContext("src/main/resources/spring-context.xml");
+ 
+        Kauppa kauppa = ctx.getBean(Kauppa.class);
+        Kirjanpito kirj = ctx.getBean(Kirjanpito.class);
+        
         // kauppa hoitaa yhden asiakkaan kerrallaan seuraavaan tapaan:
         kauppa.aloitaAsiointi();
         kauppa.lisaaKoriin(1);
